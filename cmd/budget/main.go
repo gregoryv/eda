@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 
@@ -13,17 +14,29 @@ func main() {
 	var (
 		cli    = cmdline.NewBasicParser()
 		shared = cli.Option("-p, --people").Int(2)
+		file   = cli.Option("-f, --filename").String("")
 	)
 	cli.Parse()
 
 	log.SetFlags(0)
-	entries, err := eda.Parse(os.Stdin)
+
+	var input io.Reader = os.Stdin
+	var err error
+	if file != "" {
+		input, err = os.Open(file)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	entries, err := eda.Parse(input)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	// group by tags
-	tagged := make(map[string]*Tag)
+	tagged := map[string]*Tag{
+		"other": &Tag{},
+	}
 	for _, e := range entries {
 		for _, t := range e.Tags() {
 			if _, found := tagged[t]; !found {
@@ -35,14 +48,9 @@ func main() {
 	}
 
 	// summarize
-	var other int // with only one tag
 	var monthly int
-	for _, t := range tagged {
-		monthly += t.Amount
-		if t.Count == 1 {
-			other += t.Amount
-			continue
-		}
+	for _, t := range entries {
+		monthly += t.Monthly()
 	}
 
 	// write result
@@ -55,7 +63,6 @@ func main() {
 		}
 		write(t.Amount, k)
 	}
-	write(other, "other")
 	fmt.Println("+ ------ --------------------")
 	write(monthly, "sum")
 	fmt.Printf("%8v people\n", shared)
