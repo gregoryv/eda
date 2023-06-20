@@ -76,7 +76,29 @@ next:
 	parts := strings.Split(line, " ")
 
 	if s.loan {
+		var err error
 		var l Loan
+		l.Date = parts[0]
+		l.Left, err = strconv.Atoi(parts[1])
+		if err != nil {
+			return nil, fmt.Errorf("invalid left on line %v: %s", s.lineno, line)
+		}
+
+		l.Orig, err = strconv.Atoi(parts[2])
+		if err != nil {
+			return nil, fmt.Errorf("invalid orig on line %v: %s", s.lineno, line)
+		}
+
+		l.Interest, err = strconv.ParseFloat(parts[3], 32)
+		if err != nil {
+			return nil, fmt.Errorf("invalid interest on line %v: %s", s.lineno, line)
+		}
+
+		l.installment, err = strconv.Atoi(parts[4])
+		if err != nil {
+			return nil, fmt.Errorf("invalid installment on line %v: %s", s.lineno, line)
+		}
+		l.tags = parts[5:]
 		return &l, nil
 	} else {
 		// parse amount
