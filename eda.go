@@ -139,6 +139,13 @@ type Loan struct {
 }
 
 func (l *Loan) Monthly() int {
-	// todo
-	return 0
+	return l.installment + int(((l.Interest / 100.0) * float64(l.Left) / 12.0))
 }
+
+/*
+$a = amortization;
+  $c = current;
+  $i = interest;
+
+  $monthly = $a + (($i/100) * $c/12);
+*/
