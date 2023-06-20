@@ -15,13 +15,15 @@ import (
 func main() {
 	var (
 		cli    = cmdline.NewBasicParser()
-		shared = cli.Option("-p, --people").Int(2)
-		file   = cli.Option("-f, --filename").String("")
+		shared = cli.Option("-p, --people",
+			"number of people sharing the expenses",
+		).Int(2)
+		file = cli.Option("-f, --filename").String("")
 	)
 	cli.Parse()
-
 	log.SetFlags(0)
 
+	// select input
 	var input io.Reader = os.Stdin
 	var err error
 	if file != "" {
@@ -30,6 +32,8 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+
+	// parse entries
 	entries, err := eda.Parse(input)
 	if err != nil {
 		log.Fatal(err)
@@ -50,7 +54,6 @@ func main() {
 	// summarize
 	var monthly int
 	var totalLoans int
-
 	for _, t := range entries {
 		monthly += t.Monthly()
 		if l, ok := t.(*eda.Loan); ok {
