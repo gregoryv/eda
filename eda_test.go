@@ -11,11 +11,11 @@ import (
 func Example() {
 	budget := `
 # home
-6000 y electricity
-1000 m food
+6000/year electricity
+1000/m food
 
 # clothes and stuff
-500 m clothes, linnen
+500/m clothes, linnen
 `
 	scanner := NewScanner(strings.NewReader(budget))
 	for {
@@ -26,9 +26,9 @@ func Example() {
 		fmt.Println(e)
 	}
 	// output:
-	// 6000 y electricity
-	// 1000 m food
-	// 500 m clothes, linnen
+	// 6000/year electricity
+	// 1000/m food
+	// 500/m clothes, linnen
 }
 
 func TestScanner(t *testing.T) {

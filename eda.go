@@ -37,6 +37,7 @@ next:
 	if strings.HasPrefix(line, "#") || len(line) == 0 {
 		goto next
 	}
+	line = strings.Replace(line, "/", " ", 1) // optional '/'
 
 	parts := strings.Split(line, " ")
 	// parse amount
@@ -47,7 +48,7 @@ next:
 
 	var e Entry
 	e.Amount = amount
-	e.Period = parts[1][0]
+	e.Period = parts[1]
 	e.Tags = parts[2:]
 	return &e, nil
 }
@@ -56,10 +57,10 @@ next:
 
 type Entry struct {
 	Amount int
-	Period byte
+	Period string
 	Tags   []string
 }
 
 func (e *Entry) String() string {
-	return fmt.Sprintf("%v %s %s", e.Amount, string(e.Period), strings.Join(e.Tags, " "))
+	return fmt.Sprintf("%v/%s %s", e.Amount, string(e.Period), strings.Join(e.Tags, " "))
 }
