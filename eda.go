@@ -32,6 +32,9 @@ func Parse(r io.Reader) ([]Entry, error) {
 		if errors.Is(err, io.EOF) {
 			break
 		}
+		if err != nil {
+			return nil, err
+		}
 		entries = append(entries, e)
 	}
 	return entries, nil
