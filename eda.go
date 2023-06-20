@@ -76,10 +76,8 @@ next:
 	parts := strings.Split(line, " ")
 
 	if s.loan {
-
-		// todo
-		var e Expense
-		return &e, nil
+		var l Loan
+		return &l, nil
 	} else {
 		// parse amount
 		amount, err := strconv.Atoi(parts[0])
@@ -123,9 +121,7 @@ func (e *Expense) Monthly() int {
 	}
 }
 
-func (e *Expense) Tags() []string {
-	return e.tags
-}
+func (e *Expense) Tags() []string { return e.tags }
 
 // ----------------------------------------
 
@@ -141,6 +137,8 @@ type Loan struct {
 func (l *Loan) Monthly() int {
 	return l.installment + int(((l.Interest / 100.0) * float64(l.Left) / 12.0))
 }
+
+func (l *Loan) Tags() []string { return l.tags }
 
 /*
 $a = amortization;
