@@ -161,11 +161,3 @@ func (l *Loan) Monthly() int {
 }
 
 func (l *Loan) Tags() []string { return l.tags }
-
-/*
-$a = amortization;
-  $c = current;
-  $i = interest;
-
-  $monthly = $a + (($i/100) * $c/12);
-*/

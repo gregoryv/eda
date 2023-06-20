@@ -8,6 +8,8 @@ import (
 
 	"github.com/gregoryv/cmdline"
 	"github.com/gregoryv/eda"
+	"golang.org/x/text/language"
+	"golang.org/x/text/message"
 )
 
 func main() {
@@ -47,37 +49,33 @@ func main() {
 
 	// summarize
 	var monthly int
+	var totalLoans int
+
 	for _, t := range entries {
 		monthly += t.Monthly()
+		if l, ok := t.(*eda.Loan); ok {
+			totalLoans += l.Left
+		}
 	}
 
 	// write result
+	p := message.NewPrinter(language.Swedish)
 	write := func(v int, txt string) {
-		fmt.Printf("%8s %s\n", formatAmount(v), txt)
+		p.Printf("%10d %s\n", v, txt)
 	}
+	write(totalLoans, "loans left")
+	fmt.Println("---------- --------------------")
 	for k, t := range tagged {
 		if t.Count == 1 {
 			continue
 		}
 		write(t.Amount, k)
 	}
-	fmt.Println("+ ------ --------------------")
+	fmt.Println("+ -------- --------------------")
 	write(monthly, "sum")
-	fmt.Printf("%8v people\n", shared)
-	fmt.Println("/ ------ --------------------")
+	fmt.Printf("%10v people\n", shared)
+	fmt.Println("/ -------- --------------------")
 	write(monthly/int(shared), "")
-}
-
-func formatAmount(v int) string {
-	switch {
-	case v < 1_000:
-		return fmt.Sprintf("%v", v)
-
-	case v < 1_000_000:
-		return fmt.Sprintf("%v %03v", v/1000, v%1000)
-	default:
-		return fmt.Sprintf("%v", v)
-	}
 }
 
 type Tag struct {
