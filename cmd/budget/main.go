@@ -76,9 +76,11 @@ func main() {
 	}
 	fmt.Println("+ -------- --------------------")
 	write(monthly, "sum")
-	fmt.Printf("%10v people\n", shared)
-	fmt.Println("/ -------- --------------------")
-	write(monthly/int(shared), "")
+	if shared > 1 {
+		fmt.Printf("%10v people\n", shared)
+		fmt.Println("/ -------- --------------------")
+		write(monthly/int(shared), "sum")
+	}
 }
 
 type Tag struct {
