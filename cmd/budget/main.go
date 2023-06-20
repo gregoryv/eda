@@ -18,25 +18,32 @@ func main() {
 		shared = cli.Option("-p, --people",
 			"number of people sharing the expenses",
 		).Int(2)
-		file = cli.Option("-f, --filename").String("")
+		files = cli.NamedArg("FILES...").Strings()
 	)
 	cli.Parse()
 	log.SetFlags(0)
 
 	// select input
 	var input io.Reader = os.Stdin
-	var err error
-	if file != "" {
-		input, err = os.Open(file)
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
 
-	// parse entries
-	entries, err := eda.Parse(input)
-	if err != nil {
-		log.Fatal(err)
+	entries := make([]eda.Entry, 0)
+	if len(files) > 0 {
+		for _, file := range files {
+			var err error
+			if file != "" {
+				input, err = os.Open(file)
+				if err != nil {
+					log.Fatal(err)
+				}
+			}
+
+			// parse entries
+			got, err := eda.Parse(input)
+			if err != nil {
+				log.Fatal(err)
+			}
+			entries = append(entries, got...)
+		}
 	}
 
 	// group by tags
@@ -79,7 +86,7 @@ func main() {
 	if shared > 1 {
 		fmt.Printf("%10v people\n", shared)
 		fmt.Println("/ -------- --------------------")
-		write(monthly/int(shared), "sum")
+		write(monthly/int(shared), "each")
 	}
 }
 
