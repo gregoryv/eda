@@ -1,5 +1,4 @@
 /*
-
 Expenses data format
 
 # comments, empty lines are ignored
@@ -12,7 +11,6 @@ int/[y|m] tag1 ... tagn
 # date left original interest installment tags
 20220228 686453 720000     3.34        599 lån Bolån_1 3994 15 72194 gemensamt 3år
 20220228 668800 720000     3.39        700 lån Bolån_2 3994 15 72208 gemensamt 4år
-
 */
 package eda
 
@@ -26,9 +24,9 @@ import (
 	"strings"
 )
 
-func Parse(r io.Reader) ([]*Entry, error) {
+func Parse(r io.Reader) ([]Entry, error) {
 	scanner := NewScanner(r)
-	entries := make([]*Entry, 0)
+	entries := make([]Entry, 0)
 	for {
 		e, err := scanner.Scan()
 		if errors.Is(err, io.EOF) {
@@ -53,7 +51,7 @@ type Scanner struct {
 
 var re = regexp.MustCompile(`\s+`)
 
-func (s *Scanner) Scan() (*Entry, error) {
+func (s *Scanner) Scan() (Entry, error) {
 next:
 	s.lineno++
 	more := s.s.Scan()
@@ -80,7 +78,7 @@ next:
 	if s.loan {
 
 		// todo
-		var e Entry
+		var e Expense
 		return &e, nil
 	} else {
 		// parse amount
@@ -89,21 +87,47 @@ next:
 			return nil, fmt.Errorf("invalid amount on line %v: %s", s.lineno, line)
 		}
 
-		var e Entry
+		var e Expense
 		e.amount = amount
 		e.Period = parts[1]
-		e.Tags = parts[2:]
+		e.tags = parts[2:]
 		return &e, nil
 	}
 }
 
 // ----------------------------------------
 
-type Entry struct {
+type Entry interface {
+	Monthly() int
+	Tags() []string
+}
+
+// ----------------------------------------
+
+type Expense struct {
 	amount int
 	Period string
-	Tags   []string
+	tags   []string
 }
+
+func (e *Expense) String() string {
+	return fmt.Sprintf("%v/%s %s", e.amount, string(e.Period), strings.Join(e.tags, " "))
+}
+
+func (e *Expense) Monthly() int {
+	switch e.Period {
+	case "y":
+		return e.amount / 12
+	default:
+		return e.amount
+	}
+}
+
+func (e *Expense) Tags() []string {
+	return e.tags
+}
+
+// ----------------------------------------
 
 type Loan struct {
 	Date        string
@@ -111,24 +135,10 @@ type Loan struct {
 	Orig        int
 	Interest    float64
 	installment int
-	Tags        []string
+	tags        []string
 }
 
-func (l *Loan) Monthly() int{
+func (l *Loan) Monthly() int {
 	// todo
 	return 0
-}
-
-
-func (e *Entry) String() string {
-	return fmt.Sprintf("%v/%s %s", e.amount, string(e.Period), strings.Join(e.Tags, " "))
-}
-
-func (e *Entry) Monthly() int {
-	switch e.Period {
-	case "y":
-		return e.amount / 12
-	default:
-		return e.amount
-	}
 }
