@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"os"
+	"sort"
 
 	"github.com/gregoryv/cmdline"
 	"github.com/gregoryv/eda"
@@ -75,7 +76,14 @@ func main() {
 	}
 	write(totalLoans, "loans left")
 	fmt.Println("---------- --------------------")
-	for k, t := range tagged {
+	keys := make([]string, 0, len(tagged))
+	for k, _ := range tagged {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+
+	for _, k := range keys {
+		t := tagged[k]
 		if t.Count == 1 {
 			continue
 		}
