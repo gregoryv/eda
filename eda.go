@@ -5,12 +5,15 @@ Expenses data format
 # special comments, [expense|loan] signals the subsequent line formats
 
 # expense
-int/[y|m] tag1 ... tagn
+# amount/[y|m] tags
+1000/m electricity
+100/m mobile
+40/m github
 
 # loan
-# date left original interest installment tags
-20220228 686453 720000     3.34        599 lån Bolån_1 3994 15 72194 gemensamt 3år
-20220228 668800 720000     3.39        700 lån Bolån_2 3994 15 72208 gemensamt 4år
+# left interest installment tags
+686453     3.34        599  loan house
+ 68800     5.39        700  loan car
 */
 package eda
 
@@ -81,27 +84,21 @@ next:
 	if s.loan {
 		var err error
 		var l Loan
-		l.Date = parts[0]
-		l.Left, err = strconv.Atoi(parts[1])
+		l.Left, err = strconv.Atoi(parts[0])
 		if err != nil {
 			return nil, fmt.Errorf("invalid left on line %v: %s", s.lineno, line)
 		}
 
-		l.Orig, err = strconv.Atoi(parts[2])
-		if err != nil {
-			return nil, fmt.Errorf("invalid orig on line %v: %s", s.lineno, line)
-		}
-
-		l.Interest, err = strconv.ParseFloat(parts[3], 32)
+		l.Interest, err = strconv.ParseFloat(parts[1], 32)
 		if err != nil {
 			return nil, fmt.Errorf("invalid interest on line %v: %s", s.lineno, line)
 		}
 
-		l.installment, err = strconv.Atoi(parts[4])
+		l.installment, err = strconv.Atoi(parts[2])
 		if err != nil {
 			return nil, fmt.Errorf("invalid installment on line %v: %s", s.lineno, line)
 		}
-		l.tags = parts[5:]
+		l.tags = parts[3:]
 		return &l, nil
 	} else {
 		// parse amount
