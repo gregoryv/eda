@@ -2,7 +2,8 @@
 
 Expenses data format
 
-int [y|m] tag1 ... tagn
+# comments, empty lines are ignored
+int/[y|m] tag1 ... tagn
 
 */
 package eda
@@ -33,7 +34,7 @@ next:
 	if !more {
 		return nil, io.EOF
 	}
-	line := s.s.Text()
+	line := strings.TrimSpace(s.s.Text())
 	if strings.HasPrefix(line, "#") || len(line) == 0 {
 		goto next
 	}
