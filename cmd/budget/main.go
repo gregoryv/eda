@@ -47,7 +47,7 @@ func main() {
 
 	// write result
 	write := func(v int, txt string) {
-		fmt.Printf("%6s %s\n", formatAmount(v), txt)
+		fmt.Printf("%8s %s\n", formatAmount(v), txt)
 	}
 	for k, t := range tagged {
 		if t.Count == 1 {
@@ -56,12 +56,18 @@ func main() {
 		write(t.Amount, k)
 	}
 	write(other, "other")
+	fmt.Println("+ ------ --------------------")
 	write(monthly, "sum")
-	write(monthly/int(shared), "sum/person")
+	fmt.Printf("%8v people\n", shared)
+	fmt.Println("/ ------ --------------------")
+	write(monthly/int(shared), "")
 }
 
 func formatAmount(v int) string {
 	switch {
+	case v < 1_000:
+		return fmt.Sprintf("%v", v)
+
 	case v < 1_000_000:
 		return fmt.Sprintf("%v %03v", v/1000, v%1000)
 	default:
