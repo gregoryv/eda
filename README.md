@@ -1,4 +1,4 @@
-[EDA](https://go.pkg.dev/github.com/gregoryv/eda) - Expenses data file format
+[EDA](https://pkg.go.dev/github.com/gregoryv/eda) - Expenses data file format
 
 A simple expenses log for families.
 
