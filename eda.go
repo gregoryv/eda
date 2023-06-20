@@ -10,11 +10,25 @@ package eda
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	"io"
 	"strconv"
 	"strings"
 )
+
+func Parse(r io.Reader) ([]*Entry, error) {
+	scanner := NewScanner(r)
+	entries := make([]*Entry, 0)
+	for {
+		e, err := scanner.Scan()
+		if errors.Is(err, io.EOF) {
+			break
+		}
+		entries = append(entries, e)
+	}
+	return entries, nil
+}
 
 func NewScanner(r io.Reader) *Scanner {
 	return &Scanner{
@@ -64,4 +78,13 @@ type Entry struct {
 
 func (e *Entry) String() string {
 	return fmt.Sprintf("%v/%s %s", e.Amount, string(e.Period), strings.Join(e.Tags, " "))
+}
+
+func (e *Entry) Monthly() int {
+	switch e.Period {
+	case "y":
+		return e.Amount / 12
+	default:
+		return e.Amount
+	}
 }
