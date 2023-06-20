@@ -34,9 +34,7 @@ func main() {
 	}
 
 	// group by tags
-	tagged := map[string]*Tag{
-		"other": &Tag{},
-	}
+	tagged := map[string]*Tag{}
 	for _, e := range entries {
 		for _, t := range e.Tags() {
 			if _, found := tagged[t]; !found {
