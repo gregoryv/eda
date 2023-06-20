@@ -46,15 +46,27 @@ func main() {
 	}
 
 	// write result
+	write := func(v int, txt string) {
+		fmt.Printf("%6s %s\n", formatAmount(v), txt)
+	}
 	for k, t := range tagged {
 		if t.Count == 1 {
 			continue
 		}
-		fmt.Println(t.Amount, k)
+		write(t.Amount, k)
 	}
-	fmt.Println(other, "other")
-	fmt.Println(monthly, "sum")
-	fmt.Println(monthly/shared, "per person")
+	write(other, "other")
+	write(monthly, "sum")
+	write(monthly/int(shared), "sum/person")
+}
+
+func formatAmount(v int) string {
+	switch {
+	case v < 1_000_000:
+		return fmt.Sprintf("%v %03v", v/1000, v%1000)
+	default:
+		return fmt.Sprintf("%v", v)
+	}
 }
 
 type Tag struct {
