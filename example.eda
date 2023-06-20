@@ -16,6 +16,14 @@
 6000/m food
 5000/m saving
 
+# insurrance
+1000/y wife life
+1000/y man life
+2000/y son daughter
+1500/y car1
+1500/y car2
+
 # loan
 2000000 5.0 5000 house loan
 1000000 5.0 4000 house loan
+ 200000 4.0 2000 car1 loan

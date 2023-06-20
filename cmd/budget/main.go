@@ -89,11 +89,11 @@ func main() {
 		}
 		write(t.Amount, k)
 	}
-	fmt.Println("+ -------- --------------------")
+	fmt.Println("---------- --------------------")
 	write(monthly, "sum")
 	if shared > 1 {
 		fmt.Printf("%10v people\n", shared)
-		fmt.Println("/ -------- --------------------")
+		fmt.Println("---------- --------------------")
 		write(monthly/int(shared), "each")
 	}
 }
