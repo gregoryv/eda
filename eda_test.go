@@ -1,14 +1,13 @@
 package eda
 
 import (
-	"errors"
 	"fmt"
-	"io"
+	"log"
 	"strings"
 	"testing"
 )
 
-func Example() {
+func ExampleParse() {
 	budget := `
 # home
 6000/year electricity
@@ -16,19 +15,22 @@ func Example() {
 
 # clothes and stuff
 500/m clothes, linnen
+
+# loan
+100000  5.0 0 car
 `
-	scanner := NewScanner(strings.NewReader(budget))
-	for {
-		e, err := scanner.Scan()
-		if errors.Is(err, io.EOF) {
-			break
-		}
+	entries, err := Parse(strings.NewReader(budget))
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, e := range entries {
 		fmt.Println(e.Monthly(), e.Tags())
 	}
 	// output:
 	// 6000 [electricity]
 	// 1000 [food]
 	// 500 [clothes, linnen]
+	// 416 [car]
 }
 
 func TestScanner(t *testing.T) {
