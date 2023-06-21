@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"strings"
+	"testing"
 )
 
 func ExampleParse() {
@@ -34,4 +35,11 @@ func ExampleParse() {
 	// 500 [clothes linnen]
 	// 416 [car]
 	// 100 [internet]
+}
+
+func TestParse_error(t *testing.T) {
+	_, err := Parse(strings.NewReader("bad"))
+	if err == nil {
+		t.Fatal("expect error")
+	}
 }
