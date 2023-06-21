@@ -1,25 +1,25 @@
 /*
 Expenses data format
 
-  # Comments start with a '#' and empty lines are ignored
+	# Comments start with a '#' and empty lines are ignored
 
-  # Special comments
-  #
-  # expense   signals following lines are expenses (default)
-  # loan      signals following lines are loan entries
-  #
-  # expense
-  # amount/(y|m) tags
-  1000/m electricity
-  100/m mobile
-  40/m github
-  ...
+	# Special comments
+	#
+	# expense   signals following lines are expenses (default)
+	# loan      signals following lines are loan entries
+	#
+	# expense
+	# amount/(y|m) tags
+	1000/m electricity
+	100/m mobile
+	40/m github
+	...
 
-  # loan
-  # left interest installment tags
-  686453     3.34        599  loan house
-   68800     5.39        700  loan car
-  ...
+	# loan
+	# left interest installment tags
+	686453     3.34        599  loan house
+	 68800     5.39        700  loan car
+	...
 */
 package eda
 
@@ -111,13 +111,13 @@ next:
 		return &l, nil
 	} else {
 		// parse amount
-		amount, err := strconv.Atoi(parts[0])
+		Amount, err := strconv.Atoi(parts[0])
 		if err != nil {
 			return nil, fmt.Errorf("invalid amount on line %v: %s", s.lineno, line)
 		}
 
 		var e Expense
-		e.amount = amount
+		e.Amount = Amount
 		e.Period = parts[1]
 		e.tags = parts[2:]
 		return &e, nil

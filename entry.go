@@ -11,7 +11,7 @@ type Entry interface {
 
 // Expense represents expense lines
 type Expense struct {
-	amount int
+	Amount int
 	Period string
 	tags   []string
 }
@@ -19,9 +19,9 @@ type Expense struct {
 func (e *Expense) Monthly() int {
 	switch e.Period {
 	case "y":
-		return e.amount / 12
+		return e.Amount / 12
 	default:
-		return e.amount
+		return e.Amount
 	}
 }
 
