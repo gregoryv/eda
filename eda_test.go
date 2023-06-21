@@ -14,7 +14,7 @@ func ExampleParse() {
 1000/m food
 
 # clothes and stuff
-500/m clothes, linnen
+500/m clothes linnen
 
 # loan
 100000  5.0 0 car
@@ -29,7 +29,7 @@ func ExampleParse() {
 	// output:
 	// 6000 [electricity]
 	// 1000 [food]
-	// 500 [clothes, linnen]
+	// 500 [clothes linnen]
 	// 416 [car]
 }
 

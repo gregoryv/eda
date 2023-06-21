@@ -33,6 +33,7 @@ import (
 	"strings"
 )
 
+// Parse returns entries until io.EOF is reached or an error occurs.
 func Parse(r io.Reader) ([]Entry, error) {
 	scanner := NewScanner(r)
 	entries := make([]Entry, 0)
@@ -61,6 +62,7 @@ type Scanner struct {
 	loan   bool
 }
 
+// multiple spaces regexp
 var re = regexp.MustCompile(`\s+`)
 
 func (s *Scanner) Scan() (Entry, error) {
@@ -83,8 +85,9 @@ next:
 	if strings.HasPrefix(line, "#") || len(line) == 0 {
 		goto next
 	}
-	line = strings.Replace(line, "/", " ", 1) // in expense entries
 
+	// start parsing the line
+	line = strings.Replace(line, "/", " ", 1) // in expense entries
 	parts := strings.Split(line, " ")
 
 	if s.loan {
