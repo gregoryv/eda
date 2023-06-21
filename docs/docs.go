@@ -32,7 +32,7 @@ $ budget example.eda
 
 		H2("File format"),
 		Pre(
-			files.MustLoadLines("../eda.go", 4, 20),
+			files.MustLoadLines("../eda.go", 4, 22),
 		),
 
 		H3("Example"),
