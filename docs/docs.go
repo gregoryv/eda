@@ -21,6 +21,11 @@ func main() {
 
 		nav,
 
+		Code(`Source code: `, A(
+			Href("https://github.com/gregoryv/eda"),
+			"github.com/gregoryv/eda",
+		)),
+
 		H2("Quick start"),
 
 		Pre(
