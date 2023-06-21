@@ -24,6 +24,8 @@ type Scanner struct {
 // multiple spaces regexp
 var re = regexp.MustCompile(`\s+`)
 
+// Scan returns next entry. Returns [io.EOF] when done or non nil error
+// on failure to convert line to an [Entry].
 func (s *Scanner) Scan() (Entry, error) {
 next:
 	s.lineno++

@@ -28,7 +28,8 @@ import (
 	"io"
 )
 
-// Parse returns entries until io.EOF is reached or an error occurs.
+// Parse returns entries until io.EOF is reached or an error
+// occurs. When done nil error is returned.
 func Parse(r io.Reader) ([]Entry, error) {
 	scanner := NewScanner(r)
 	entries := make([]Entry, 0)
