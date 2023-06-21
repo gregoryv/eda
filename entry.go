@@ -42,12 +42,12 @@ func (e *Expense) Tags() []string { return e.tags }
 type Loan struct {
 	Left        int
 	Interest    float64
-	installment int
+	Installment int
 	tags        []string
 }
 
 func (l *Loan) Monthly() int {
-	return l.installment + int(((l.Interest / 100.0) * float64(l.Left) / 12.0))
+	return l.Installment + int(((l.Interest / 100.0) * float64(l.Left) / 12.0))
 }
 
 func (l *Loan) Tags() []string { return l.tags }

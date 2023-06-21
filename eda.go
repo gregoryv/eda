@@ -100,7 +100,7 @@ next:
 			return nil, fmt.Errorf("invalid interest on line %v: %s", s.lineno, line)
 		}
 
-		l.installment, err = strconv.Atoi(parts[2])
+		l.Installment, err = strconv.Atoi(parts[2])
 		if err != nil {
 			return nil, fmt.Errorf("invalid installment on line %v: %s", s.lineno, line)
 		}
