@@ -1,10 +1,5 @@
 package eda
 
-import (
-	"fmt"
-	"strings"
-)
-
 // Entry represents data lines
 type Entry interface {
 	// Monthly returns the monthly amount.
@@ -19,10 +14,6 @@ type Expense struct {
 	amount int
 	Period string
 	tags   []string
-}
-
-func (e *Expense) String() string {
-	return fmt.Sprintf("%v/%s %s", e.amount, string(e.Period), strings.Join(e.tags, " "))
 }
 
 func (e *Expense) Monthly() int {

@@ -23,12 +23,12 @@ func Example() {
 		if errors.Is(err, io.EOF) {
 			break
 		}
-		fmt.Println(e)
+		fmt.Println(e.Monthly(), e.Tags())
 	}
 	// output:
-	// 6000/year electricity
-	// 1000/m food
-	// 500/m clothes, linnen
+	// 6000 [electricity]
+	// 1000 [food]
+	// 500 [clothes, linnen]
 }
 
 func TestScanner(t *testing.T) {
