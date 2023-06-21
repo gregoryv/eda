@@ -5,13 +5,16 @@ import (
 	"strings"
 )
 
+// Entry represents data lines
 type Entry interface {
+	// Monthly returns the monthly amount.
 	Monthly() int
 	Tags() []string
 }
 
 // ----------------------------------------
 
+// Expense represents expense lines
 type Expense struct {
 	amount int
 	Period string
@@ -35,6 +38,7 @@ func (e *Expense) Tags() []string { return e.tags }
 
 // ----------------------------------------
 
+// Loan represents loan lines
 type Loan struct {
 	Left        int
 	Interest    float64
