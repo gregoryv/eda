@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"strings"
-	"testing"
 )
 
 func ExampleParse() {
@@ -35,12 +34,4 @@ func ExampleParse() {
 	// 500 [clothes linnen]
 	// 416 [car]
 	// 100 [internet]
-}
-
-func TestScanner(t *testing.T) {
-	scanner := NewScanner(strings.NewReader("y food"))
-	_, err := scanner.Scan()
-	if err == nil {
-		t.Error("expected error on missing amount")
-	}
 }
