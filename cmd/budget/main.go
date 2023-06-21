@@ -1,3 +1,4 @@
+// Command budget parses EDA files and prints out a summary
 package main
 
 import (

@@ -1,3 +1,4 @@
+// Command docs generates the gregoryv.github.io/eda pages
 package main
 
 import (
