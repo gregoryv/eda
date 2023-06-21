@@ -1,19 +1,19 @@
 /*
 Expenses data format
 
-# comments, empty lines are ignored
-# special comments, [expense|loan] signals the subsequent line formats
+  # comments, empty lines are ignored
+  # special comments, [expense|loan] signals the subsequent line formats
 
-# expense
-# amount/[y|m] tags
-1000/m electricity
-100/m mobile
-40/m github
+  # expense
+  # amount/[y|m] tags
+  1000/m electricity
+  100/m mobile
+  40/m github
 
-# loan
-# left interest installment tags
-686453     3.34        599  loan house
- 68800     5.39        700  loan car
+  # loan
+  # left interest installment tags
+  686453     3.34        599  loan house
+   68800     5.39        700  loan car
 */
 package eda
 

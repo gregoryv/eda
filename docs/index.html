@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<style>html, body {
+margin: 0 0;
+padding: 0 0;
+}
+body {
+padding: 1em 1.612em;
+}
+p, li {
+line-height: 1.3em;
+}
+a:link {
+color: #0000EE;
+}
+a:visited {
+color: #551A8B;
+}
+</style>
+<style>a:link, a:visited {
+color: #007d9c;
+text-decoration: none;
+}
+a:hover {
+text-decoration: underline;
+}
+</style>
+<style>li.h3 {
+margin-left: 1em;
+}
+</style>
+</head>
+<body>
+<h1>Expense Data - file format</h1>
+<p>Creating a simple budget for your family using plain text
+        for easy version control. This project defines the file
+        format, expense data (EDA) and a tool to process it with.</p>
+<nav><ul>
+<li class="h2"><a href="#quickstart">Quick start</a></li>
+<li class="h2"><a href="#fileformat">File format</a></li>
+<li class="h3"><a href="#example">Example</a></li>
+</ul>
+</nav>
+<h2 id="quickstart"><a href="#quickstart">Quick start</a></h2>
+<pre>$ go install github.com/gregoryv/eda/cmd/budget@latest
+$ budget example.eda
+ 3 200 000 loans left
+---------- --------------------
+     4 791 car1
+     2 125 car2
+       666 daughter
+    21 499 house
+       166 life
+    24 165 loan
+     2 383 man
+     1 500 mobile
+       566 son
+     2 383 wife
+---------- --------------------
+    44 896 sum
+         2 people
+---------- --------------------
+    22 448 each
+</pre><h2 id="fileformat"><a href="#fileformat">File format</a></h2>
+<pre>  # comments, empty lines are ignored
+  # special comments, [expense|loan] signals the subsequent line formats
+
+  # expense
+  # amount/[y|m] tags
+  1000/m electricity
+  100/m mobile
+  40/m github
+
+  # loan
+  # left interest installment tags
+  686453     3.34        599  loan house
+   68800     5.39        700  loan car
+*/
+package eda
+
+import (
+</pre><h3 id="example"><a href="#example">Example</a></h3>
+<pre># vehicles
+2000/m man car1
+2000/m wife car2
+
+# digital
+300/m man mobile
+300/m wife mobile
+500/m daughter mobile
+400/m son mobile
+400/m internet
+
+# home and utilities
+30000/y electricity
+4000/y water
+5000/y garbage
+6000/m food
+5000/m saving
+
+# insurrance
+1000/y wife life
+1000/y man life
+2000/y son daughter
+1500/y car1
+1500/y car2
+
+# loan
+2000000 5.0 5000 house loan
+1000000 5.0 4000 house loan
+ 200000 4.0 2000 car1 loan</pre></body>
+</html>
