@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to semantic versioning.
 
+## [unreleased]
+
+- print tag separator only if there are any
+
 ## [0.2.0] 2023-06-21
 
 - document file format https://gregoryv.github.io/eda

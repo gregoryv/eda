@@ -76,19 +76,22 @@ func main() {
 		p.Printf("%10d %s\n", v, txt)
 	}
 	write(totalLoans, "loans left")
-	fmt.Println("---------- --------------------")
-	keys := make([]string, 0, len(tagged))
-	for k, _ := range tagged {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
 
+	// group tags
+	keys := sortedKeys(tagged)
+	group := make([]string, 0)
 	for _, k := range keys {
-		t := tagged[k]
-		if t.Count == 1 {
+		if tagged[k].Count == 1 {
 			continue
 		}
-		write(t.Amount, k)
+		group = append(group, k)
+	}
+	if len(group) > 0 {
+		fmt.Println("---------- --------------------")
+		for _, k := range group {
+			t := tagged[k]
+			write(t.Amount, k)
+		}
 	}
 	fmt.Println("---------- --------------------")
 	write(monthly, "sum")
@@ -102,4 +105,13 @@ func main() {
 type Tag struct {
 	Count  int // number of tags
 	Amount int
+}
+
+func sortedKeys[T any](m map[string]T) []string {
+	keys := make([]string, 0, len(m))
+	for k, _ := range m {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	return keys
 }
