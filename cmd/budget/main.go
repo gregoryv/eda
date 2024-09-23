@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"sort"
+	"strings"
 
 	"github.com/gregoryv/cmdline"
 	"github.com/gregoryv/eda"
@@ -20,7 +21,9 @@ func main() {
 		shared = cli.Option("-p, --people",
 			"number of people sharing the expenses",
 		).Int(2)
-		files = cli.NamedArg("FILES...").Strings()
+
+		groupByTag = cli.Option("-g, --group-by-tag", "group entries by tags").Bool()
+		files      = cli.NamedArg("FILES...").Strings()
 	)
 	cli.Parse()
 	log.SetFlags(0)
@@ -51,12 +54,21 @@ func main() {
 	// group by tags
 	tagged := map[string]*Tag{}
 	for _, e := range entries {
-		for _, t := range e.Tags() {
-			if _, found := tagged[t]; !found {
-				tagged[t] = &Tag{}
+		if e == nil {
+			continue
+		}
+		if groupByTag {
+			for _, t := range e.Tags() {
+				if _, found := tagged[t]; !found {
+					tagged[t] = &Tag{}
+				}
+				tagged[t].Amount += e.Monthly()
+				tagged[t].Count++
 			}
-			tagged[t].Amount += e.Monthly()
-			tagged[t].Count++
+		} else {
+			t := strings.Join(e.Tags(), " ")
+			tagged[t] = &Tag{}
+			tagged[t].Amount = e.Monthly()
 		}
 	}
 
