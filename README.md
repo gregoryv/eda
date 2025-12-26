@@ -1,3 +1,5 @@
+ARCHIVED! Moved to https://sogvin.com/eda
+
 [EDA](https://pkg.go.dev/github.com/gregoryv/eda) - Expenses data file format
 
 A simple expenses log for families.
